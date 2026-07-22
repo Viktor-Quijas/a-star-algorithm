@@ -10,5 +10,6 @@ public class Mapp {
 
         printMap = new PrintMap(matrix, 10, 10);
 
+        IO.print("holi");
     }
 }
