@@ -1,6 +1,7 @@
 import edu.algoritmo_astar.map.*;
 
 void main(){
-    Mapp map = new Mapp();
+    PublicMap map = new PublicMap();
 
+    map.FirstProtocol();
 }

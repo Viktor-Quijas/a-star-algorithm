@@ -9,7 +9,6 @@ public class CreationMap {
 
     public int BLANK = 0;
     public int OCCUPIED = 1;
-    public int START = 2;
     public int END = 3;
 
     private void createMap() {
@@ -21,9 +20,9 @@ public class CreationMap {
                 matrix[i][j] = getGender();
 
                 if (i == 0 && j == 0)
-                    matrix[i][j] = START;
+                    matrix[i][j] = MapConstants.START;
                 else if (i == m - 1 && j == n - 1)
-                    matrix[i][j] = END;
+                    matrix[i][j] = MapConstants.END;
             }
         }
     }
@@ -34,9 +33,9 @@ public class CreationMap {
         int x = r.nextInt(100);
 
         if (x < 20)
-            gender = OCCUPIED;
+            gender = MapConstants.OCCUPIED;
         else {
-            gender = BLANK;
+            gender = MapConstants.BLANK;
         }
 
         return gender;
