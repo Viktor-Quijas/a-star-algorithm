@@ -1,6 +1,8 @@
 package edu.algoritmo_astar.algorithm;
 
 public class Algorithm {
+
+
 }
 
 
@@ -10,6 +12,6 @@ public class Algorithm {
 *       - g, aún no sé como determinar su valor. Aunque supongo que al estar en una cuadrícula y su movimiento es en
 *         cruz, sus valores son iguales y la diferencia radica en h. Y creo que readica más en si la casilla está en
 *         blanco o si está ocupada.
-*       - creo que para este caso bidimencinal no necesito generar un grafo, unicamente nos podemos guiar de la matriz.
+*
 *
 * */

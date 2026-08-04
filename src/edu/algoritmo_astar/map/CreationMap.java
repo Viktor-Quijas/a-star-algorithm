@@ -22,7 +22,7 @@ public class CreationMap {
                 if (i == 0 && j == 0)
                     matrix[i][j] = MapConstants.START;
                 else if (i == m - 1 && j == n - 1)
-                    matrix[i][j] = MapConstants.END;
+                    matrix[i][j] = MapConstants.GOAL;
             }
         }
     }

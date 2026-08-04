@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class PublicMap {
     int m;
     int n;
-    int[][] matrix;
     Scanner read;
     CreationMap newMap;
     PrintMap printMap;
@@ -12,8 +11,7 @@ public class PublicMap {
     public void FirstProtocol(){
         getParameters();
         newMap = new CreationMap(m,n);
-        matrix = newMap.getMatrix();
-        printMap = new PrintMap(matrix,m,n);
+        printMap = new PrintMap(newMap.getMatrix(),m,n);
         printMap.numberPrint();
     }
 
