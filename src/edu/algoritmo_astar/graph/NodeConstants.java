@@ -12,4 +12,9 @@ public interface NodeConstants {
 
     public static final int SQUARE_GRID_LINE_WEIGHT = 1;
     public static final double SQUARE_GRID_DIAGONAL_WEIGHT = Math.sqrt(2);
+
+    public static final int ALIGNMENT_HORIZONTAL = 0;
+    public static final int ALIGNMENT_VERTICAL = 1;
+    public static final int ALIGNMENT_LEFT = 0;
+    public static final int ALIGNMENT_RIGHT = 1;
 }

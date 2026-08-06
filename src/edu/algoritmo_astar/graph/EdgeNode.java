@@ -1,7 +1,8 @@
 package edu.algoritmo_astar.graph;
 
 public class EdgeNode {
-    public int weight;
+    public int lineWeight;
+    public double diagonalWeight;
     public int state;
     public int g;
     public int h;
@@ -10,7 +11,15 @@ public class EdgeNode {
     public VertexNode originFrom;
 
     public EdgeNode(int weight, VertexNode pointingTo, VertexNode originFrom){
-        this.weight = weight;
+        this.lineWeight = weight;
+        this.pointingTo = pointingTo;
+        this.originFrom = originFrom;
+
+        state = NodeConstants.WAITING;
+    }
+
+    public EdgeNode(double weight, VertexNode pointingTo, VertexNode originFrom){
+        this.diagonalWeight = weight;
         this.pointingTo = pointingTo;
         this.originFrom = originFrom;
 
