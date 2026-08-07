@@ -7,10 +7,6 @@ public class CreationMap {
     private final int n;
     private final int[][] matrix;
 
-    public int BLANK = 0;
-    public int OCCUPIED = 1;
-    public int END = 3;
-
     private void createMap() {
         if (matrix == null)
             return;

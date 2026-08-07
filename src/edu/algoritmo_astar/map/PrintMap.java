@@ -6,7 +6,7 @@ public class PrintMap {
     int m;
 
 
-    public PrintMap(int[][] matrix, int n, int m){
+    public PrintMap(int[][] matrix, int m, int n){
         this.matrix = matrix;
         this.n = n;
         this.m = m;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class VertexNode {
     public int id;
-    public int x;
-    public int y;
+    public int m;
+    public int n;
     public int type;
     public List<EdgeNode> edges;
 

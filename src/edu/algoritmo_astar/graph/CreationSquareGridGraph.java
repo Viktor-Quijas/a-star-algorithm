@@ -5,32 +5,32 @@ import java.util.Collections;
 import java.util.List;
 
 public class CreationSquareGridGraph {
-    protected final int m;
-    protected final int n;
-    protected int[][] matrix;
-    protected VertexNode[][] graph;
+    private final int m;
+    private final int n;
+    private final int[][] matrix;
+    private VertexNode[][] graph;
 
     public CreationSquareGridGraph(int m, int n, int[][] matrix){
         this.m = m;
         this.n = n;
         this.matrix = matrix;
+
+        squareGridGraphCreation();
     }
 
     private void createGraphNodes(){
         graph = new VertexNode[m][n];
 
+        int setID = 0;
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++) {
-                graph[i][j] = new VertexNode(i);
+                graph[i][j] = new VertexNode(setID);
 
                 nodeMapping(graph[i][j], matrix[i][j]);
                 nodeAlignment(graph[i][j], i, j);
+                setID++;
             }
         }
-
-
-
-
         IO.println("Grafo creado exitosamente!");
     }
 
@@ -55,8 +55,8 @@ public class CreationSquareGridGraph {
         if (node == null)
             return;
 
-        node.x = x;
-        node.y = y;
+        node.m = x;
+        node.n = y;
     }
 
     private List<EdgeNode> getCornerEdge(VertexNode node, int dx, int dy){
@@ -66,16 +66,16 @@ public class CreationSquareGridGraph {
         List<EdgeNode> edgeList = new ArrayList<>();
         EdgeNode edge;
 
-        if (m > 1) {
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x + dx][node.y], node);
+        if (n > 1) {
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m][node.n + dy], node);
             edgeList.add(edge);
         }
-        if (n > 1){
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x][node.y + dy], node);
+        if (m > 1){
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m + dx][node.n], node);
             edgeList.add(edge);
         }
         if (m > 1 && n > 1){
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x + dx][node.y + dy], node);
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m + dx][node.n + dy], node);
             edgeList.add(edge);
         }
 
@@ -90,33 +90,33 @@ public class CreationSquareGridGraph {
         EdgeNode edge;
 
         if (alignment == NodeConstants.ALIGNMENT_HORIZONTAL){
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x][node.y - 1], node);
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m][node.n - 1], node);
             edgeList.add(edge);
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x][node.y + 1], node);
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m][node.n + 1], node);
             edgeList.add(edge);
 
-            if (node.x + direction < m && node.x + direction >= 0){
-                edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x + direction][node.y], node);
+            if (node.m + direction < m && node.m + direction >= 0){
+                edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m + direction][node.n], node);
                 edgeList.add(edge);
 
-                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x + direction][node.y + 1], node);
+                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m + direction][node.n + 1], node);
                 edgeList.add(edge);
-                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x + direction][node.y - 1], node);
+                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m + direction][node.n - 1], node);
                 edgeList.add(edge);
             }
         } else if (alignment == NodeConstants.ALIGNMENT_VERTICAL){
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x - 1][node.y], node);
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m - 1][node.n], node);
             edgeList.add(edge);
-            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x + 1][node.y], node);
+            edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m + 1][node.n], node);
             edgeList.add(edge);
 
-            if (node.y + direction < n && node.y + direction >= 0){
-                edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x][node.y + direction], node);
+            if (node.n + direction < n && node.n + direction >= 0){
+                edge = new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m][node.n + direction], node);
                 edgeList.add(edge);
 
-                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x - 1][node.y + direction], node);
+                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m - 1][node.n + direction], node);
                 edgeList.add(edge);
-                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x + 1][node.y + direction], node);
+                edge = new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m + 1][node.n + direction], node);
                 edgeList.add(edge);
             }
         }
@@ -130,15 +130,15 @@ public class CreationSquareGridGraph {
 
         List<EdgeNode> edgeList = new ArrayList<>();
 
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x + 1][node.y], node));
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x - 1][node.y], node));
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x][node.y + 1], node));
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.x][node.y - 1], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m + 1][node.n], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m - 1][node.n], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m][node.n + 1], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_LINE_WEIGHT, graph[node.m][node.n - 1], node));
 
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x + 1][node.y - 1], node));
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x + 1][node.y + 1], node));
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x - 1][node.y - 1], node));
-        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.x - 1][node.y + 1], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m + 1][node.n - 1], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m + 1][node.n + 1], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m - 1][node.n - 1], node));
+        edgeList.add(new EdgeNode(NodeConstants.SQUARE_GRID_DIAGONAL_WEIGHT, graph[node.m - 1][node.n + 1], node));
 
         return edgeList;
     }
@@ -148,29 +148,29 @@ public class CreationSquareGridGraph {
             return;
 
         //UP_LEFT_CORNER
-        if (node.x == 0 && node.y == 0)
+        if (node.m == 0 && node.n == 0)
             node.edges = getCornerEdge(node, 1, 1);
         //UP_RIGHT_CORNER
-        else if (node.x == 0 && node.y == n - 1)
-            node.edges = getCornerEdge(node, -1, 1);
-        //DOWN_LEFT_CORNER
-        else if (node.x == m - 1 && node.y == 0)
+        else if (node.m == 0 && node.n == n - 1)
             node.edges = getCornerEdge(node, 1, -1);
+        //DOWN_LEFT_CORNER
+        else if (node.m == m - 1 && node.n == 0)
+            node.edges = getCornerEdge(node, -1, 1);
         //DOWN_RIGHT_CORNER
-        else if (node.x == m - 1 && node.y == n - 1)
+        else if (node.m == m - 1 && node.n == n - 1)
             node.edges = getCornerEdge(node, -1, -1);
         //NORTH_BORDER
-        else if (node.x == 0)
-            node.edges = getBorderEdge(node, 0, -1);
+        else if (node.m == 0)
+            node.edges = getBorderEdge(node, NodeConstants.ALIGNMENT_HORIZONTAL, 1);
         //SOUTH_BORDER
-        else if (node.x == m - 1)
-            node.edges = getBorderEdge(node, 0, 1);
+        else if (node.m == m - 1)
+            node.edges = getBorderEdge(node, NodeConstants.ALIGNMENT_HORIZONTAL, -1);
         //WEST_BORDER
-        else if (node.y == 0)
-            node.edges = getBorderEdge(node, 1, 0);
+        else if (node.n == 0)
+            node.edges = getBorderEdge(node, NodeConstants.ALIGNMENT_VERTICAL, 1);
         //EAST_BORDER
-        else if (node.y == n - 1)
-            node.edges = getBorderEdge(node, -1, 0);
+        else if (node.n == n - 1)
+            node.edges = getBorderEdge(node, NodeConstants.ALIGNMENT_VERTICAL, -1);
         //CENTER
         else
             node.edges = getCenterEdge(node);
@@ -183,6 +183,7 @@ public class CreationSquareGridGraph {
         graph = null;
 
         createGraphNodes();
+
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
                 edgeAssignation(graph[i][j]);
@@ -190,5 +191,35 @@ public class CreationSquareGridGraph {
         }
     }
 
-    protected VertexNode[][] getGraph(){ return graph; }
+    public boolean edgesAreCorrect(){
+        if (graph == null)
+            return false;
+
+        boolean isCorrect = true;
+
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                if (graph[i][j].edges.isEmpty()) {
+                    IO.println("Vértice: " + i + " " + j + " sin aristas!");
+                    isCorrect = false;
+                }
+            }
+        }
+
+        return isCorrect;
+    }
+
+    public VertexNode getNode (int i, int j){
+        if (graph == null) {
+            IO.println("Ningún grafo ha sido creado!");
+            return null;
+        }
+
+        if (i < 0 || j < 0 || i >= m || j >= n)
+            return null;
+
+        return graph[i][j];
+    }
+
+    public VertexNode[][] getGraph(){ return graph; }
 }

@@ -1,6 +1,11 @@
 package edu.algoritmo_astar.algorithm;
 
+import edu.algoritmo_astar.graph.CreationSquareGridGraph;
+import edu.algoritmo_astar.map.CreationMap;
+
 public class Algorithm {
+    private CreationMap map;
+    private CreationSquareGridGraph graph;
 
 
 }

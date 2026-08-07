@@ -15,9 +15,4 @@ public interface NodeConstants {
 
     public static final int ALIGNMENT_HORIZONTAL = 0;
     public static final int ALIGNMENT_VERTICAL = 1;
-
-    public static final int DIRECTION_LEFT = -1;
-    public static final int DIRECTION_RIGHT = 1;
-    public static final int DIRECTION_UP = -1;
-    public static final int DIRECTION_DOWN = 1;
 }
