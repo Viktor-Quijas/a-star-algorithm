@@ -2,7 +2,7 @@ package edu.algoritmo_astar.map;
 import java.util.Scanner;
 import edu.algoritmo_astar.graph.CreationSquareGridGraph;
 
-public class PublicMap {
+public class MapInterface {
     int m;
     int n;
     Scanner read;
@@ -38,7 +38,7 @@ public class PublicMap {
         }
     }
 
-    public PublicMap(){
+    public MapInterface(){
         read = new Scanner(System.in);
     }
 

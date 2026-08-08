@@ -10,14 +10,6 @@ public class CreationSquareGridGraph {
     private final int[][] matrix;
     private VertexNode[][] graph;
 
-    public CreationSquareGridGraph(int m, int n, int[][] matrix){
-        this.m = m;
-        this.n = n;
-        this.matrix = matrix;
-
-        squareGridGraphCreation();
-    }
-
     private void createGraphNodes(){
         graph = new VertexNode[m][n];
 
@@ -222,4 +214,12 @@ public class CreationSquareGridGraph {
     }
 
     public VertexNode[][] getGraph(){ return graph; }
+
+    public CreationSquareGridGraph(int m, int n, int[][] matrix){
+        this.m = m;
+        this.n = n;
+        this.matrix = matrix;
+
+        squareGridGraphCreation();
+    }
 }
