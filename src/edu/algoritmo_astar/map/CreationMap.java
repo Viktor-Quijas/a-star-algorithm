@@ -1,13 +1,14 @@
 package edu.algoritmo_astar.map;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class CreationMap {
     private final int m;
     private final int n;
     private final int[][] matrix;
 
-    private void createMap() {
+    public void createRandomMap() {
         if (matrix == null)
             return;
 
@@ -28,13 +29,35 @@ public class CreationMap {
         Random r = new Random();
         int x = r.nextInt(100);
 
-        if (x < 20)
+        if (x < 33)
             gender = MapConstants.OCCUPIED;
         else {
             gender = MapConstants.BLANK;
         }
 
         return gender;
+    }
+
+    public void fillMatrixFromInput() {
+        Scanner read = new Scanner(System.in);
+
+        System.out.println("Ingrese las " + m + " filas del mapa (" + n + " dígitos por fila):");
+
+        for (int i = 0; i < m; i++) {
+            String line = read.next().trim();
+
+            // Validación de seguridad contra tropas desproporcionadas
+            while (line.length() != n) {
+                System.out.println("⚠️ Falla de longitud: La fila debe tener exactamente " + n + " dígitos. Reingrese la fila " + i + ":");
+                line = read.next().trim();
+            }
+
+            for (int j = 0; j < n; j++) {
+                // Capturamos el carácter y lo convertimos a entero
+                char digitChar = line.charAt(j);
+                this.matrix[i][j] = Character.getNumericValue(digitChar);
+            }
+        }
     }
 
     public int[][] getMatrix(){
@@ -53,7 +76,6 @@ public class CreationMap {
         this.m = m;
         this.n = n;
         matrix = new int[m][n];
-        createMap();
     }
 }
 

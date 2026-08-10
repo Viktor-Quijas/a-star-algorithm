@@ -11,14 +11,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Algorithm {
-    private CreationMap map;
-    private CreationSquareGridGraph graph;
-    private List<EdgeNode> openList;
-    private List<EdgeNode> closeList;
-    private EdgeNode solution;
+    private final CreationMap map;
+    private final CreationSquareGridGraph graph;
+    private final List<VertexNode> openList;
+    private final List<VertexNode> closeList;
+    private VertexNode solution;
 
-    private VertexNode goal;
-    private VertexNode start;
+    private final VertexNode goal;
+    private final VertexNode start;
 
     public Algorithm(CreationMap map, CreationSquareGridGraph graph){
         this.map = map;
@@ -29,8 +29,6 @@ public class Algorithm {
 
         goal = findGoalNode();
         start = findStartNode();
-
-        AStarAlgorithm();
     }
 
     private VertexNode findGoalNode(){
@@ -61,106 +59,81 @@ public class Algorithm {
         return null;
     }
 
-    private void AStarAlgorithm(){
+    public boolean AStarAlgorithm(){
         if (start == null || goal == null)
-            return;
+            return false;
 
-        EdgeNode beginning = new EdgeNode(0,start,null);
-        EdgeNode actual, successor;
+        VertexNode beginning = new VertexNode(start);
+        VertexNode actual, successor;
+        solution = null;
 
         openList.add(beginning);
 
         while (!openList.isEmpty()){
-            openList.sort(Comparator.comparing(EdgeNode::getValueF));
+            openList.sort(Comparator.comparing(VertexNode::getValueF));
 
             actual = openList.removeFirst();
 
-            int i = 0;
-            int cont;
+            int indexSuccessor = 0;
+            int indexAnotherBetter;
             boolean isAnotherBetter;
-            while (i < actual.pointingTo.edges.size()){
-                successor = actual.pointingTo.edges.get(i);
 
-                if (successor.pointingTo == goal){
+            while (indexSuccessor < actual.edges.size()){
+                successor = new VertexNode(actual.edges.get(indexSuccessor).pointingTo);
+                successor.parent = actual;
 
-                    return;
+                if (successor.id == goal.id){
+                    solution = successor;
+                    return true;
                 }
 
-                successor.setValueG(actual);
+                if (successor.type == NodeConstants.OCCUPIED){
+                    indexSuccessor++;
+                    continue;
+                }
+
+
+                successor.setValueG(actual, actual.edges.get(indexSuccessor));
                 successor.setValueH(goal);
 
                 isAnotherBetter = false;
 
-                for (cont = 0; cont < Math.max(openList.size(),closeList.size()); cont++){
-                    if (cont < openList.size() && openList.get(cont).getValueF() < successor.getValueF()){
+                for (indexAnotherBetter = 0; indexAnotherBetter < Math.max(openList.size(),closeList.size()); indexAnotherBetter++){
+                    if ((indexAnotherBetter < openList.size() &&
+                            openList.get(indexAnotherBetter).id == successor.id &&
+                            openList.get(indexAnotherBetter).getValueF() < successor.getValueF())
+                            ||
+                            (indexAnotherBetter < closeList.size() &&
+                            closeList.get(indexAnotherBetter).id == successor.id &&
+                            closeList.get(indexAnotherBetter).getValueF() < successor.getValueF())
+                    )
                         isAnotherBetter = true;
-                    }
-                    if (cont < closeList.size() && closeList.get(cont).getValueF() < successor.getValueF()){
-                        isAnotherBetter = true;
-                    }
                 }
 
-                if (isAnotherBetter)
+                if (isAnotherBetter) {
+                    indexSuccessor++;
                     continue;
+                }
                 else
                     openList.add(successor);
 
-                i++;
+                indexSuccessor++;
             }
 
-            actual.pointingTo.parent = actual.originFrom;
             closeList.add(actual);
         }
-
-        solution = falta añadir como encontrar la solución w.
+        return false;
     }
 
+    public void printSolution(){
+        if (solution == null)
+            return;
 
+        VertexNode auxiliar = solution;
+
+        while (auxiliar != null){
+            IO.println(auxiliar.id);
+            auxiliar = auxiliar.parent;
+        }
+    }
 }
-
-
-/*      NOTAS:
- * - Los nodos necesitan saber su valor f, g, h.
- *       - h al ser una operacion se definirá como un metodo y no como un atributo.
- *       - g, aún no sé como determinar su valor. Aunque supongo que al estar en una cuadrícula y su movimiento es en
- *         cruz, sus valores son iguales y la diferencia radica en h. Y creo que readica más en si la casilla está en
- *         blanco o si está ocupada.
- *
- *       PASOS PARA HACER EL ALGORITMO
- *
- *   0. PASOS ANTES DE COMENZAR A DESARROLLAR.
- *       Hacer el metodo con la función metahuristica para los nodos aristas.
- *
- *
- *
- *   1. INICIALIZACIÓN
- *       Inicializa las dos listas. Open y Close.
- *       Hallar los nodos inicio y meta.
- *       El nodo inicio lo ingresa directamente a la lista de open.
- *       Se inicializa su variable f en 0.
- *
- *   2. ITERACIONES
- *      Mientras la lista no sea vacía.
- *          Encontrar el nodo con el menor valor de f en la open list y sacarlo.
- *
- *          Para cada arista:
- *              Si el sucesor es END, entonces detern el algoritmo.
- *
- *              Computar sus respectivos valores de g, g y f.
- *              Comprobar si un nodoArista en la misma posisción que el suscesor se encuentra en la open list y
- *              tiene un valor de f es más bajo, entonces NO se agrega a la OPENLIST.
- *              LO MIMOS PERO EN LA CLOSE LIST.
- *              Sino, Agregalo a la openlist.
- *
- *          Coloca al nodo padre en la closedList.
- *
- *   3. RESULTADOS
- *      Hacer una función en printmap que de los resultados.
- *
- *
- *
- *
- *  NOTAS:
- *   Para hacer más facil entontrar el vértice al cual apuntar se debe de ordenar la lista de los nodos vértices dentro del algoritmo.
- *
- */

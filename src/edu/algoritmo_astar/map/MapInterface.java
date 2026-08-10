@@ -1,7 +1,8 @@
 package edu.algoritmo_astar.map;
-import java.util.Map;
+
 import java.util.Scanner;
 import edu.algoritmo_astar.graph.CreationSquareGridGraph;
+import edu.algoritmo_astar.algorithm.Algorithm;
 
 public class MapInterface {
     int m;
@@ -10,6 +11,7 @@ public class MapInterface {
     CreationMap newMap;
     PrintMap printMap;
     CreationSquareGridGraph graph;
+    Algorithm algorithm;
 
     public void FirstProtocol(){
         getParameters();
@@ -25,12 +27,24 @@ public class MapInterface {
     public void AlgorithmProtocol(){
         getParameters();
         newMap = new CreationMap(m,n);
+        newMap.fillMatrixFromInput();
+        //newMap.createRandomMap();
         printMap = new PrintMap(newMap.getMatrix(),m,n);
         printMap.numberPrint();
 
         graph = new CreationSquareGridGraph(newMap);
-        graph.edgesAreCorrect();
+
+        algorithm = new Algorithm(newMap,graph);
+
         printNodos();
+
+        boolean isThereASolution = algorithm.AStarAlgorithm();
+        if (isThereASolution)
+            IO.println("Existe solución!");
+        else
+            IO.println("NO existe solución!");
+
+        algorithm.printSolution();
     }
 
     //Solo para observar su comportamiento.
