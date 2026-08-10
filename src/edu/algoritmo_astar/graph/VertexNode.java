@@ -7,6 +7,7 @@ public class VertexNode {
     public int m;
     public int n;
     public int type;
+    public VertexNode parent;
     public List<EdgeNode> edges;
 
     public VertexNode(int id){

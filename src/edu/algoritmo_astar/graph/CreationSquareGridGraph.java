@@ -1,4 +1,5 @@
 package edu.algoritmo_astar.graph;
+import edu.algoritmo_astar.map.CreationMap;
 import edu.algoritmo_astar.map.MapConstants;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -139,6 +140,11 @@ public class CreationSquareGridGraph {
         if (node == null)
             return;
 
+        if (node.type == NodeConstants.OCCUPIED) {
+            node.edges = Collections.emptyList();
+            return;
+        }
+
         //UP_LEFT_CORNER
         if (node.m == 0 && node.n == 0)
             node.edges = getCornerEdge(node, 1, 1);
@@ -215,10 +221,10 @@ public class CreationSquareGridGraph {
 
     public VertexNode[][] getGraph(){ return graph; }
 
-    public CreationSquareGridGraph(int m, int n, int[][] matrix){
-        this.m = m;
-        this.n = n;
-        this.matrix = matrix;
+    public CreationSquareGridGraph(CreationMap map){
+        this.m = map.getM();
+        this.n = map.getN();
+        this.matrix = map.getMatrix();
 
         squareGridGraphCreation();
     }

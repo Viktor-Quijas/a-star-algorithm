@@ -41,6 +41,14 @@ public class CreationMap {
         return matrix;
     }
 
+    public int getM() {
+        return m;
+    }
+
+    public int getN() {
+        return n;
+    }
+
     public CreationMap(int m, int n){
         this.m = m;
         this.n = n;

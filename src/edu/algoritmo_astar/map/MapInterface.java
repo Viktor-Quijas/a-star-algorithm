@@ -1,4 +1,5 @@
 package edu.algoritmo_astar.map;
+import java.util.Map;
 import java.util.Scanner;
 import edu.algoritmo_astar.graph.CreationSquareGridGraph;
 
@@ -16,7 +17,18 @@ public class MapInterface {
         printMap = new PrintMap(newMap.getMatrix(),m,n);
         printMap.numberPrint();
 
-        graph = new CreationSquareGridGraph(m, n, newMap.getMatrix());
+        graph = new CreationSquareGridGraph(newMap);
+        graph.edgesAreCorrect();
+        printNodos();
+    }
+
+    public void AlgorithmProtocol(){
+        getParameters();
+        newMap = new CreationMap(m,n);
+        printMap = new PrintMap(newMap.getMatrix(),m,n);
+        printMap.numberPrint();
+
+        graph = new CreationSquareGridGraph(newMap);
         graph.edgesAreCorrect();
         printNodos();
     }
@@ -48,4 +60,5 @@ public class MapInterface {
         IO.print("Inserta la cantidad de columnas:");
         n = read.nextInt();
     }
+
 }
