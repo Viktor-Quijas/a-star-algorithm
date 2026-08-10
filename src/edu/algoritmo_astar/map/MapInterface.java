@@ -27,8 +27,8 @@ public class MapInterface {
     public void AlgorithmProtocol(){
         getParameters();
         newMap = new CreationMap(m,n);
-        newMap.fillMatrixFromInput();
-        //newMap.createRandomMap();
+        //newMap.fillMatrixFromInput();
+        newMap.createRandomMap();
         printMap = new PrintMap(newMap.getMatrix(),m,n);
         printMap.numberPrint();
 
